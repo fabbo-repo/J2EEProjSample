@@ -1,4 +1,4 @@
-package java;
+package pri;
 import java.sql.*;
 
 public class Conexion {
@@ -10,7 +10,7 @@ public class Conexion {
 			//2. CREAR OBJETO STATEMENT
 			Statement myState = myConn.createStatement();
 			//3. EJECUTAR SQL
-			ResultSet res = myState.executeQuery("SELECT * FROM PRODUCTOS");
+			ResultSet res = myState.executeQuery("SELECT * FROM productos");
 			//4. RECOGER EL RESULTSET
 			while(res.next()) {
 				System.out.println(res.getString("NOMBREARTICULO") + " " + res.getString("CODIGOARTICULO") + " " + res.getDouble("PRECIO")*2
