@@ -2,15 +2,18 @@ package pri;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import org.json.simple.parser.ParseException;
 
 import utils.DBInfo;
 import utils.DBLink;
 
-public class Conexion {
-
+public class ModificaBBDD {
+	
 	/*public static void main(String[] args) {
 		try {
 	        DBInfo db_info = new DBInfo();
@@ -22,15 +25,10 @@ public class Conexion {
 			
 			// 2. CREAR OBJETO STATEMENT
 			Statement st = myConn.createStatement();
+			//String instSQL = "INSERT INTO productos (codigoarticulo, nombrearticulo, precio) VALUES (002, 'Pantalón', 15.99)";
+			//st.executeUpdate(instSQL);
+			System.out.println("Datos insertados correctamente");
 			
-			// 3. EJECUTAR SQL
-			ResultSet res = st.executeQuery("SELECT * FROM productos");
-			
-			// 4. RECOGER EL RESULTSET
-			while(res.next()) {
-				System.out.println(res.getString("nombrearticulo") + " " + res.getString("codigoarticulo") + " " + 
-						res.getDouble("precio")*2 + " " + res.getDate("fecha"));
-			}
 		}
 		catch (FileNotFoundException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();} 
@@ -40,4 +38,5 @@ public class Conexion {
 			e.printStackTrace();
 		}
 	}*/
+	
 }
