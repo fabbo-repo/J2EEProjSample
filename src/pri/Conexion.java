@@ -1,36 +1,29 @@
 package pri;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import utils.DBInfo;
+import utils.DBLink;
 
 public class Conexion {
 
 	public static void main(String[] args) {
 		try {
-	        Object ob = new JSONParser().parse(new FileReader("data"+System.getProperty("file.separator")+"database.json"));
-			JSONObject js = (JSONObject) ob;
-
-	        String ip_addr = (String) js.get("ip_addr");
-	        String port = (String) js.get("port");
-	        String database = (String) js.get("database");
-	        String user = (String) js.get("user");
-	        String password = (String) js.get("password");
-	        System.out.println(System.getProperty("user.dir"));
+	        DBInfo db_info = new DBInfo();
+	        DBLink db_link = new DBLink(db_info);
+	        db_link.connect();
 	        
-	        //1. CREAR CONEXION
-			Connection myConn = DriverManager.getConnection("jdbc:postgresql://"+ip_addr+":"+port+"/"+database, 
-					user, password);
-			//2. CREAR OBJETO STATEMENT
+	        // 1. CREAR CONEXION
+			Connection myConn = db_link.getConnection();
+			// 2. CREAR OBJETO STATEMENT
 			Statement myState = myConn.createStatement();
-			//3. EJECUTAR SQL
+			// 3. EJECUTAR SQL
 			ResultSet res = myState.executeQuery("SELECT * FROM productos");
-			//4. RECOGER EL RESULTSET
+			// 4. RECOGER EL RESULTSET
 			while(res.next()) {
 				System.out.println(res.getString("nombrearticulo") + " " + res.getString("codigoarticulo") + " " + 
 						res.getDouble("precio")*2 + " " + res.getDate("fecha"));
