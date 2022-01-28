@@ -9,8 +9,8 @@ import javax.swing.*;
 
 import org.json.simple.parser.ParseException;
 
-import controller.ConnectionHandler;
-import controller.SectionsController;
+import model.ConnectionHandler;
+import controller.MenuController;
 import utils.DBInfo;
 import utils.DBLink;
 
@@ -51,7 +51,7 @@ public class AppFrame extends JFrame {
 		ConnectionHandler cH;
 		try {
 			cH = new ConnectionHandler();
-			this.addWindowListener(new SectionsController(this, cH));
+			this.addWindowListener(new MenuController(this, cH));
 		} 
 		catch (IOException | ParseException | SQLException e) {
 			JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
