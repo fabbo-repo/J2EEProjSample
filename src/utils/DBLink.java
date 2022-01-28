@@ -24,17 +24,13 @@ public class DBLink {
 	
 	/**
      * Realiza la conexion con la base de datos
-     * @return boolean True si la conexion se ha realizado con exito
+     * @throws SQLException En caso de no establecer la conexion
      */
-	public boolean connect() {
-		try {
-			this.db_connection = DriverManager.getConnection(
-					"jdbc:postgresql://"+db_info.getIpAddr()+":"
-					+db_info.getPort()+"/"+db_info.getDatabase(), 
-					db_info.getUser(), db_info.getPassword());
-		}
-		catch(Exception e) { return false; }
-		return true;
+	public void connect() throws SQLException {
+		this.db_connection = DriverManager.getConnection(
+				"jdbc:postgresql://"+db_info.getIpAddr()+":"
+				+db_info.getPort()+"/"+db_info.getDatabase(), 
+				db_info.getUser(), db_info.getPassword());
 	}
 
 	/**
