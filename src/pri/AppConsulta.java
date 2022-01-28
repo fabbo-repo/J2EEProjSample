@@ -81,7 +81,8 @@ class AppMarco extends JFrame {
 	private void ejecutaConsulta() {
 		ResultSet res = null;
 		try {
-			String codigoarticulo = (String) codigoarticulos.getSelectedItem();
+			if(((String) codigoarticulos.getSelectedItem()).equals("Todos")) return;
+			int codigoarticulo = Integer.parseInt((String) codigoarticulos.getSelectedItem());
 			enviaConsultaCodArticulo = myConn.prepareStatement(consultaCodArticulo);
 			enviaConsultaCodArticulo.setInt(1, codigoarticulo); // Interrogante 1 
 			res = enviaConsultaCodArticulo.executeQuery();
