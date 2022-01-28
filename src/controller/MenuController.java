@@ -2,10 +2,13 @@ package controller;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import org.json.simple.parser.ParseException;
 
 import model.ConnectionHandler;
 import model.MenuLoader;
@@ -33,7 +36,7 @@ public class MenuController extends WindowAdapter{
 			this.menuLoader.closeSecResult();
 			this.menuLoader.closeCntResult();
 		} 
-		catch (SQLException e1) {
+		catch (SQLException | IOException | ParseException e1) {
 			JOptionPane.showMessageDialog(this.frame, "Error: "+e1.getMessage());
 			System.exit(-1);
 		}

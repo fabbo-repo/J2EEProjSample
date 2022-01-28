@@ -11,13 +11,14 @@ import org.json.simple.parser.ParseException;
 
 import model.ConnectionHandler;
 import controller.MenuController;
+import controller.QueryBtnController;
 import utils.DBInfo;
 import utils.DBLink;
 
 public class AppFrame extends JFrame {
 	private JComboBox sectionsBox;
 	private JComboBox countryBox;
-	private JTextArea resultado;
+	private JTextArea resultArea;
 	
 	public AppFrame() {
 		setTitle("Consulta BBDD");
@@ -35,27 +36,23 @@ public class AppFrame extends JFrame {
 		countryBox.setEditable(false);
 		countryBox.addItem("Todos");
 		
-		resultado = new JTextArea(4,50);
-		resultado.setEditable(false);
-		this.add(resultado);
+		resultArea = new JTextArea(4,50);
+		resultArea.setEditable(false);
+		this.add(resultArea);
 		
 		menus.add(sectionsBox);
 		menus.add(countryBox);
 		
 		this.add(menus, BorderLayout.NORTH);
-		this.add(resultado, BorderLayout.CENTER);
+		this.add(resultArea, BorderLayout.CENTER);
 		
 		JButton botonConsulta = new JButton("Consulta");
 		this.add(botonConsulta, BorderLayout.SOUTH);
 		
 		ConnectionHandler cH;
-		try {
-			cH = new ConnectionHandler();
-			this.addWindowListener(new MenuController(this, cH));
-		} 
-		catch (IOException | ParseException | SQLException e) {
-			JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
-		}
+		cH = new ConnectionHandler();
+		botonConsulta.addActionListener(new QueryBtnController(this, cH));
+		this.addWindowListener(new MenuController(this, cH));
 		
 	}
 	
@@ -74,5 +71,15 @@ public class AppFrame extends JFrame {
 
 	public void setCountryBox(JComboBox countryBox) {
 		this.countryBox = countryBox;
+	}
+
+
+	public JTextArea getResultArea() {
+		return resultArea;
+	}
+
+
+	public void setResultArea(JTextArea result) {
+		this.resultArea = result;
 	}
 }

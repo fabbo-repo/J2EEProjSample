@@ -1,10 +1,14 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import org.json.simple.parser.ParseException;
 
 public class MenuLoader {
 	private ConnectionHandler connHandler;
@@ -15,15 +19,25 @@ public class MenuLoader {
 		this.connHandler = cH;
 	}
 	
-	public void executeQuery() throws SQLException {
+	public void executeQuery() throws SQLException, 
+		FileNotFoundException, IOException, ParseException {
+		// En caso de que la conexion no esté abierta, se abre
+		if(!this.connHandler.isConnected()) 
+			this.connHandler.connectDB();
+		// Obtener acceso a la conexion
 		Connection accessDB = this.connHandler.getConnection();
+		// Crear consultas preparadas
 		Statement statement = accessDB.createStatement();
 		this.lastSecResult = statement.executeQuery(""
 				+ "SELECT DISTINCT seccion "
 				+ "FROM productos");
+		// Es necesario actualizar la statement para otra query
+		statement = accessDB.createStatement();
 		this.lastCntResult = statement.executeQuery(""
 				+ "SELECT DISTINCT paisdeorigen "
 				+ "FROM productos");
+		// Cerrar la conexion una vez finalizada la query
+		this.connHandler.closeDB();
 	}
 	
 	public ResultSet getLastSecResult() {
