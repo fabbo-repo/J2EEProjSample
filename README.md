@@ -5,5 +5,5 @@ Additionally, JDBC driver is being used to establish the connection to a Postgre
 
 ----------------------------------------
 # Authors:
-[Fabián Scherle](https://github.com/fabbo-repo)
+[Fabián Scherle](https://github.com/fabbo-repo)\
 [Maria Sun](https://github.com/Wyuuri)
