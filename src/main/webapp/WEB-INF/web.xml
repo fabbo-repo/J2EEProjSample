@@ -14,14 +14,23 @@
     	<welcome-file>default.htm</welcome-file>
     	<welcome-file>default.jsp</welcome-file>
   	</welcome-file-list>
-  	<servlet>
+	<!-- Añadiendo configuracion del context.xml: -->
+	<resource-ref>
+		<description>postgreSQL Datasource</description>
+		<res-ref-name>jdbc/postgres</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+  	<!-- Ejemplo de servlet mapping:
+	<servlet>
 	    <description></description>
-	    <display-name>ServletController</display-name>
-	    <servlet-name>ServletController</servlet-name>
+	    <display-name>mainservlet</display-name>
+	    <servlet-name>mainservlet</servlet-name>
 	    <servlet-class>es.main.servlet.ServletController</servlet-class>
  	</servlet>
   	<servlet-mapping>
-    	<servlet-name>ServletController</servlet-name>
-    	<url-pattern>/ServletController</url-pattern>
+    	<servlet-name>mainservlet</servlet-name>
+    	<url-pattern>/mainservlet</url-pattern>
   	</servlet-mapping>
+	-->
 </web-app>
