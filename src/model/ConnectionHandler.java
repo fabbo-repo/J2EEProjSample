@@ -20,7 +20,7 @@ public class ConnectionHandler {
 		this.connected = false;
 	}
 	
-	public void connectDB() throws FileNotFoundException, 
+	public synchronized void connectDB() throws FileNotFoundException, 
 				IOException, ParseException, SQLException {
 		DBInfo db_info = new DBInfo();
         DBLink db_link = new DBLink(db_info);
@@ -29,7 +29,7 @@ public class ConnectionHandler {
         this.connected = true;
 	}
 	
-	public void closeDB() throws SQLException {
+	public synchronized void closeDB() throws SQLException {
 		this.myConn.close();
 		this.connected = false;
 	}
@@ -38,7 +38,13 @@ public class ConnectionHandler {
 		return this.myConn;
 	}
 	
-	public boolean isConnected() {
+	public synchronized boolean isConnected() {
 		return this.connected;
+	}
+	
+	public synchronized void tryConnect() throws FileNotFoundException, 
+								IOException, ParseException, SQLException {
+		this.connectDB();
+		this.closeDB();
 	}
 }

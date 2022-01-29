@@ -27,14 +27,14 @@ public class MenuController extends WindowAdapter{
 	public void windowOpened(WindowEvent e) {
 		try {
 			this.menuLoader.executeQuery();
-			while(this.menuLoader.getLastSecResult().next())
+			/*while(this.menuLoader.getLastSecResult().next())
 				this.frame.getSectionsBox().addItem(
 						this.menuLoader.getLastSecResult().getString("seccion"));
 			while(this.menuLoader.getLastCntResult().next())
 				this.frame.getCountryBox().addItem(
 						this.menuLoader.getLastCntResult().getString("paisdeorigen"));
 			this.menuLoader.closeSecResult();
-			this.menuLoader.closeCntResult();
+			this.menuLoader.closeCntResult();*/
 		} 
 		catch (SQLException | IOException | ParseException e1) {
 			JOptionPane.showMessageDialog(this.frame, "Error: "+e1.getMessage());

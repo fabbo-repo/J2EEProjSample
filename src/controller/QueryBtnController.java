@@ -27,7 +27,7 @@ public class QueryBtnController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String selectedSection = (String) frame.getSectionsBox()
+		/*String selectedSection = (String) frame.getSectionsBox()
 				.getSelectedItem();
 		String selectedCountry = (String) frame.getCountryBox()
 				.getSelectedItem();
@@ -45,6 +45,6 @@ public class QueryBtnController implements ActionListener {
 		} 
 		catch (IOException | ParseException | SQLException e1) {
 			JOptionPane.showMessageDialog(frame, e1.getMessage());
-		}
+		}*/
 	}
 }
