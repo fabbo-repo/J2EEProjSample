@@ -1,7 +1,6 @@
 package es.main.products;
 
 import jakarta.annotation.Resource;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +18,7 @@ import javax.sql.DataSource;
 /**
  * Servlet implementation class ServletController
  */
-@WebServlet("/products")
+@WebServlet("/products-name")
 public class ServletController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -57,8 +56,9 @@ public class ServletController extends HttpServlet {
 				output.println(rS.getString("nombrearticulo"));
 		} 
 		catch (SQLException e) {
-			output.print(e.getMessage());
+			output.println(e.getMessage());
 		}
+		output.close();
 	}
 
 	/**

@@ -16,7 +16,7 @@
   	</welcome-file-list>
 	<!-- Añadiendo configuracion del context.xml: -->
 	<resource-ref>
-		<description>postgreSQL Datasource</description>
+		<description>postgreSQL DataSource</description>
 		<res-ref-name>jdbc/postgres</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>

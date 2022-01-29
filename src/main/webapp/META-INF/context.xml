@@ -8,7 +8,7 @@ maxWait: tiempo max de espera para cliente (en ms)
 	<Resource 
 		name="jdbc/postgres" 
 		auth="Container" 
-		type="javax.sql.Datasource"
+		type="javax.sql.DataSource"
 		maxActive="15"
 		maxIdle="3"
 		maxWait="5000"
