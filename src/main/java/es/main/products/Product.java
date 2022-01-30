@@ -1,5 +1,7 @@
 package es.main.products;
 
+import java.util.Date;
+
 /**
  * @author Fabbo
  *
@@ -9,6 +11,7 @@ public class Product {
 	private String product_name;
 	private String section;
 	private double price;
+	private Date origin_date;
 	private String origin_country;
 	
 	public Product() {
@@ -16,15 +19,17 @@ public class Product {
 		this.product_name = "";
 		this.section = "";
 		this.price = 0.0;
+		this.origin_date = new Date();
 		this.origin_country = "";
 	}
 	
 	public Product(int cP, String pN, String s, double p, 
-					String oC) {
+					Date oD, String oC) {
 		this.cod_product = cP;
 		this.product_name = pN;
 		this.section = s;
 		this.price = p;
+		this.origin_date = oD;
 		this.origin_country = oC;
 	}
 
@@ -98,10 +103,29 @@ public class Product {
 		this.origin_country = origin_country;
 	}
 
+	/**
+	 * @return the origin_date
+	 */
+	public Date getOriginDate() {
+		return origin_date;
+	}
+
+	/**
+	 * @param origin_date the origin_date to set
+	 */
+	public void setOriginDate(Date origin_date) {
+		this.origin_date = origin_date;
+	}
+
 	@Override
 	public String toString() {
-		return "Product [cod_product=" + cod_product + ", product_name=" 
-				+ product_name + ", section=" + section + ", price=" 
-				+ price + ", origin_country=" + origin_country + "]";
+		return "Product [cod_product=" + cod_product 
+				+ ", product_name=" + product_name 
+				+ ", section=" + section
+				+ ", price=" + price 
+				+ ", origin_date=" + origin_date 
+				+ ", origin_country=" + origin_country + "]";
 	}
+	
+	
 }

@@ -3,6 +3,8 @@ package es.main.products;
 import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -47,8 +49,21 @@ public class ProductController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, 
-																							IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		// Leer parametro que recibe en la peticion
+		String param = request.getParameter("instruction");
+		// En caso de que no exista parametro se trata de listar productos
+		if(param == null) param = "productList";
+		// Clasificar peticion según parametro
+		if(param.equals("productList"))
+			this.getProducts(request, response);
+		else if(param.equals("productInsert"))
+			this.insertProduct(request, response);
+		// Por defecto: listar productos
+		else this.getProducts(request, response);
+	}
+
+	private void getProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			// Obtener lista de productos:
 			List<Product> products = this.prodModel.getProducts();
@@ -58,9 +73,31 @@ public class ProductController extends HttpServlet {
 			RequestDispatcher disp = request.getRequestDispatcher("/jsps/product-list.jsp");
 			disp.forward(request, response);
 		}
-		catch (SQLException e) {
+		catch (SQLException | IOException e) {
 			throw new ServletException(e);
 		}
 	}
 
+	private void insertProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		try {
+			// Leer formulario y rear objeto de tipo Product:
+			Product prod = new Product(
+						// Nota: se deben usar los ids definidos en el formulario
+						Integer.parseInt(request.getParameter("cod_product")),
+						request.getParameter("product_name"),
+						request.getParameter("section"),
+						Double.parseDouble(request.getParameter("price")),
+						(new SimpleDateFormat("yyyy-MM-dd")).parse(
+								request.getParameter("origin_date")),
+						request.getParameter("origin_country")
+					);
+			// Enviar objeto al modelo e insertar en base de datos:
+			this.prodModel.insertProduct(prod);
+			// Regresar al listado de productos
+			this.getProducts(request, response);
+		}
+		catch(NumberFormatException | ParseException | SQLException e) {
+			throw new ServletException(e);
+		}
+	}
 }

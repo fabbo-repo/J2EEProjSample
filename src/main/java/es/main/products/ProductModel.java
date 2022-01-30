@@ -4,6 +4,7 @@
 package es.main.products;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,8 +46,34 @@ public class ProductModel {
 					rS.getString("nombrearticulo"),
 					rS.getString("seccion"),
 					rS.getDouble("precio"),
+					rS.getDate("fecha"),
 					rS.getString("paisdeorigen")));
 		
 		return products;
+	}
+
+	public void insertProduct(Product prod) throws SQLException {
+		// Obtener conexion:
+		Connection conn = this.dbData.getConnection();
+		// Instrucción SQL para insertar el producto y statement
+		String insertSQL = ""
+				+ "INSERT INTO productos "
+				+ "(codigoarticulo, nombrearticulo, seccion, "
+				+ "precio, fecha, paisdeorigen) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		PreparedStatement stat = conn.prepareStatement(insertSQL);
+		// Establecer parametros para el producto:	
+		stat.setInt(1, prod.getCodProduct());
+		stat.setString(2, prod.getProductName());
+		stat.setString(3, prod.getSection());
+		stat.setDouble(4, prod.getPrice());
+		// Para el caso de la fecha, se debe convertir de 
+		// java.util.Date a java.sql.Date
+		// La clase de sql carece de hora a diferencia de la de util
+		stat.setDate(5, new java.sql.Date(
+				prod.getOriginDate().getTime()));
+		stat.setString(6, prod.getOriginCountry());
+		// Ejecutar instruccion SQL
+		stat.execute();
 	}
 }
