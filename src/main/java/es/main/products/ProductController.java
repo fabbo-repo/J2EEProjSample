@@ -59,6 +59,12 @@ public class ProductController extends HttpServlet {
 			this.getProducts(request, response);
 		else if(param.equals("productInsert"))
 			this.insertProduct(request, response);
+		else if(param.equals("loadUpdate"))
+			this.loadUpdate(request, response);
+		else if(param.equals("productUpdate"))
+			this.updateProduct(request, response);
+		else if(param.equals("productDelete"))
+			this.deleteProduct(request, response);
 		// Por defecto: listar productos
 		else this.getProducts(request, response);
 	}
@@ -97,6 +103,60 @@ public class ProductController extends HttpServlet {
 			this.getProducts(request, response);
 		}
 		catch(NumberFormatException | ParseException | SQLException e) {
+			throw new ServletException(e);
+		}
+	}
+
+	private void loadUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		try {
+			// Leer codigo articulo del producto a actualizar
+			String codProduct = request.getParameter("codproduct");
+			// Enviar codigo articulo al modelo
+			Product product = this.prodModel.getProduct(Integer.parseInt(codProduct));
+			// Actualizar codigo articulo
+			request.setAttribute("prod", product);
+			// Enviar Producto al formulario a actualizar
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsps/update-product.jsp");
+			dispatcher.forward(request, response);
+		} 
+		catch (IOException | SQLException | IllegalArgumentException e) {
+			throw new ServletException(e);
+		}
+	}
+
+	private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		try {
+			// Leer los datos que le vienen del formulario de actualizar
+			Product prod = new Product(
+					// Nota: se deben usar los ids definidos en el formulario
+					Integer.parseInt(request.getParameter("cod_product")),
+					request.getParameter("product_name"),
+					request.getParameter("section"),
+					Double.parseDouble(request.getParameter("price")),
+					(new SimpleDateFormat("yyyy-MM-dd")).parse(
+							request.getParameter("origin_date")),
+					request.getParameter("origin_country")
+				);
+			// Actualizar base de datos
+			this.prodModel.updateProduct(prod);
+			// Regresar al listado de productos
+			this.getProducts(request, response);
+		} 
+		catch (NumberFormatException | ParseException | SQLException e) {
+			throw new ServletException(e);
+		}
+	}
+
+	private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		try {
+			// Leer codigo articulo del producto a eliminar
+			String codProduct = request.getParameter("codproduct");
+			// Eliminarproducto
+			this.prodModel.deleteProduct(Integer.parseInt(codProduct));
+			// Regresar al listado de productos
+			this.getProducts(request, response);
+		}
+		catch (SQLException e) {
 			throw new ServletException(e);
 		}
 	}

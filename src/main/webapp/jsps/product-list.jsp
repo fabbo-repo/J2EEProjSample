@@ -18,6 +18,7 @@ el prefijo "c" es para tagas de tipo "core"  -->
 		font-weight: bold;
 		color: #FFFFFF;
 		background-color: #08088A;
+		text-align: center;
 	}
 	.filas{
 		text-align: center;
@@ -46,8 +47,24 @@ el prefijo "c" es para tagas de tipo "core"  -->
 			<td class="cabecera"> Precio </td>
 			<td class="cabecera"> Fecha </td>
 			<td class="cabecera"> País de Origen </td>
+			<td class="cabecera"> Accion </td>
 		</tr>
 		<c:forEach var="prod" items="${product_list}">
+		
+			<!-- Link para actualizar cada producto con su campo clave -->
+			<!-- En value va el nombre del servlet segun la web o mapping 
+			configurado, en este caso el ProductController es products -->
+			<c:url var="tmpLinkUpdate" value="/products">
+				<c:param name="instruction" value="loadUpdate"></c:param>
+				<c:param name="codproduct" value="${prod.codProduct}"></c:param>
+			</c:url>
+			
+			<!-- Link para cada producto con su campo clave -->
+			<c:url var="tmpLinkDelete" value="/products">
+				<c:param name="instruction" value="productDelete"></c:param>
+				<c:param name="codproduct" value="${prod.codProduct}"></c:param>
+			</c:url>
+			
 			<tr>
 				<!-- Nota: los atributos los obtiene de los metodos
 				getters, por ejemplo para getCodProduct el atributo 
@@ -59,6 +76,13 @@ el prefijo "c" es para tagas de tipo "core"  -->
 				<td class="filas">${prod.price}</td>
 				<td class="filas">${prod.originDate}</td>
 				<td class="filas">${prod.originCountry}</td>
+				<!-- Nota: Desde tomcat 8.5 no se pueden poner '[' y ']' en las urls
+				o saldara error de "Invalid character" -->
+				<td class="filas">
+					<a href="${tmpLinkUpdate}">[actualizar]</a>
+					&nbsp; <!-- Espacio horizontal -->
+					<a href="${tmpLinkDelete}">[eliminar]</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

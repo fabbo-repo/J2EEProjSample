@@ -76,4 +76,70 @@ public class ProductModel {
 		// Ejecutar instruccion SQL
 		stat.execute();
 	}
+
+	public Product getProduct(int codProduct) throws IllegalArgumentException, SQLException {
+		// Establecer conexion con la base de datos
+		Connection cnn = this.dbData.getConnection();
+		// Crear consulta SQL
+		String query = "SELECT * "
+					 + "FROM productos "
+					 + "WHERE codigoarticulo=?";
+		// Crear consulta preparada
+		PreparedStatement stat = cnn.prepareStatement(query);
+		// Establecer parametros
+		stat.setInt(1, codProduct);
+		// Ejecutar consulta
+		ResultSet rS = stat.executeQuery();
+		// Obtener datos
+		if(rS.next())
+			return new Product(
+					rS.getInt("codigoarticulo"),
+					rS.getString("nombrearticulo"),
+					rS.getString("seccion"),
+					rS.getDouble("precio"),
+					rS.getDate("fecha"),
+					rS.getString("paisdeorigen"));
+		else throw new IllegalArgumentException("Producto con codigo"
+					+codProduct+" no disponible");
+	}
+
+	public void updateProduct(Product prod) throws SQLException {
+		// Establecer conexion
+		Connection cnn = this.dbData.getConnection();
+		// Crear instruccion SQL
+		String update = "UPDATE productos "
+					  + "SET nombrearticulo=?, seccion=?, precio=?, "
+					  + "fecha=?, paisdeorigen=? "
+					  + "WHERE codigoarticulo=?";
+		// Crear sentencia preparada
+		PreparedStatement stat = cnn.prepareStatement(update);
+		// Establecer parametros
+		stat.setString(1, prod.getProductName());
+		stat.setString(2, prod.getSection());
+		stat.setDouble(3, prod.getPrice());
+		// Para el caso de la fecha, se debe convertir de 
+		// java.util.Date a java.sql.Date
+		// La clase de sql carece de hora a diferencia de la de util
+		stat.setDate(4, new java.sql.Date(
+				prod.getOriginDate().getTime()));
+		stat.setString(5, prod.getOriginCountry());
+		stat.setInt(6, prod.getCodProduct());
+		// Ejecutar instruccion SQL
+		stat.execute();	
+	}
+
+	public void deleteProduct(int codProduct) throws SQLException {
+		// Establecer conexion
+		Connection cnn = this.dbData.getConnection();
+		// Crear instruccion SQL
+		String update = "DELETE "
+					  + "FROM productos "
+					  + "WHERE codigoarticulo=?";
+		// Crear sentencia preparada
+		PreparedStatement stat = cnn.prepareStatement(update);
+		// Establecer parametros
+		stat.setInt(1, codProduct);
+		// Ejecutar instruccion SQL
+		stat.execute();	
+	}
 }
