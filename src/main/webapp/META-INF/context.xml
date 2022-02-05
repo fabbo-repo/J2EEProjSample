@@ -12,9 +12,9 @@ maxWait: tiempo max de espera para cliente (en ms)
 		maxActive="15"
 		maxIdle="3"
 		maxWait="5000"
-		username="javauser1db"
-		password="j4a7vapqw3"
+		username="..."
+		password="..."
 		driverClassName="org.postgresql.Driver"
-		url="jdbc:postgresql://192.168.0.35:5432/javadb1">
+		url="jdbc:postgresql://ipaddr/database">
 	</Resource>
 </Context>
